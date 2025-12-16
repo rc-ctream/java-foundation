@@ -1,7 +1,5 @@
 package com.schoolar.java.grundkurs.ch8.events;
 
-import java.time.LocalDate;
-
 public class Main {
 
     public static void main( String[] args ) {
@@ -9,14 +7,22 @@ public class Main {
         var eventHandler = new EventHandler(); // var == final EventHandler eventHandler; var != var from JS;
 
         var newCustomerEvent = new CustomerEvent();
-        newCustomerEvent.setCustomerName( "Rasim" );
+        newCustomerEvent.setCustomerName( "asdb" );
 
-        var newOrderEvent = new NewOrderEvent();
-        newOrderEvent.setOrderId( "000001" );
-        newOrderEvent.setCustomerId( "rami-001" );
-        newOrderEvent.setCreated( LocalDate.now() );
+        try {
+            eventHandler.handleIncomingEvent( newCustomerEvent );
+        } catch ( RuntimeException e ) {
+            System.out.println( e.getMessage() );
+        }finally {
+            System.out.println("finally");
+        }
 
-        eventHandler.handleIncomingEvent( newCustomerEvent );
-        eventHandler.handleIncomingEvent( newOrderEvent );
+        System.out.println("FOO");
+
+//        var newOrderEvent = new NewOrderEvent();
+//        newOrderEvent.setOrderId( "000001" );
+//        newOrderEvent.setCustomerId( "rami-001" );
+//        newOrderEvent.setCreated( LocalDate.now() );
+//        eventHandler.handleIncomingEvent( newOrderEvent );
     }
 }

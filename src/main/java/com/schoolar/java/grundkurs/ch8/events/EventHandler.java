@@ -1,5 +1,8 @@
 package com.schoolar.java.grundkurs.ch8.events;
 
+import ch.qos.logback.core.util.StringUtil;
+import com.schoolar.java.grundkurs.ch9.customers.CustomerInvalidException;
+
 public class EventHandler {
 
     void handleIncomingEvent( IncomingEvent incomingEvent ) {
@@ -19,13 +22,18 @@ public class EventHandler {
         var customerOrder = new CustomerOrder( customerId, orderId );
         System.out.println( "Handle incoming NEW_ORDER_EVENT " + incomingEvent );
         System.out.println( "Order ID: " + labelId );
-        System.out.println(">" + customerOrder + "<");
+        System.out.println( ">" + customerOrder + "<" );
     }
 
     private void handleNewCustomer( IncomingEvent incomingEvent ) {
-        System.out.println( "Handle incoming NEW_CUSTOMER_EVENT " + incomingEvent );
-        var customerEvent = ( CustomerEvent ) incomingEvent;
-        System.out.println( "Customer name: " + customerEvent.getCustomerName() );
+        var newCustomerEvent = ( CustomerEvent ) incomingEvent;
+        var newCustomerName = newCustomerEvent.getCustomerName();
+
+        if ( StringUtil.isNullOrEmpty( newCustomerName ) ) {
+            throw new CustomerInvalidException( "Customer name is invalid" );
+        }
+
+        System.out.println( "new customer: " + newCustomerName );
     }
 
 }
